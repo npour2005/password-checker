@@ -131,3 +131,31 @@ def estimate_crack_time(password: str) -> str:
     if years < 1_000_000:
         return "هزاران سال"
     return "میلیون‌ها سال"
+
+
+import secrets
+
+
+def generate_password(length: int = 16) -> str:
+    """یه رمز قوی و تصادفی می‌سازه (حداقل یکی از هر نوع کاراکتر)."""
+    lower = string.ascii_lowercase
+    upper = string.ascii_uppercase
+    digits = string.digits
+    symbols = "!@#$%^&*-_?"
+
+    # اول از هر نوع یکی برمی‌داریم تا رمز حتماً قوی باشه
+    chars = [
+        secrets.choice(lower),
+        secrets.choice(upper),
+        secrets.choice(digits),
+        secrets.choice(symbols),
+    ]
+
+    # بقیه‌ی کاراکترها رو از مجموع همه‌ی انواع انتخاب می‌کنیم
+    all_chars = lower + upper + digits + symbols
+    while len(chars) < length:
+        chars.append(secrets.choice(all_chars))
+
+    # ترتیب رو به‌هم می‌ریزیم
+    secrets.SystemRandom().shuffle(chars)
+    return "".join(chars)    
